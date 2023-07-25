@@ -10,17 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = "getAllTasks",
-            query = "SELECT m FROM Tasks AS m ORDER BY m.id DESC"
-            ),
-    @NamedQuery(
-            name = "getTasksCount",
-            query = "SELECT COUNT(m) FROM Tasks AS m"
-            )
+        name = "getAllTasks",
+        query = "SELECT m FROM Tasks AS m ORDER BY m.id DESC"
+    )
 })
 @Table(name = "tasks")
 public class Tasks {
@@ -46,6 +41,7 @@ public class Tasks {
         this.id = id;
     }
 
+
     public String getContent() {
         return content;
     }
@@ -69,7 +65,4 @@ public class Tasks {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-
-
-
 }
