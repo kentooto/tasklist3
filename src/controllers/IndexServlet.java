@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,13 +35,25 @@ public class IndexServlet extends HttpServlet {
             throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
-        List<Tasks> tasks = em.createNamedQuery("getAllTasks", Tasks.class).getResultList();
+        int page = 1;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch(NumberFormatException e) {}
+
+        // 最大件数と開始位置を指定してメッセージを取得
+        List<Tasks> tasks = em.createNamedQuery("getAllTasks", Tasks.class)
+                                   .setFirstResult(15 * (page - 1))
+                                   .setMaxResults(15)
+                                   .getResultList();
+
+        // 全件数を取得
+        long tasks_count = (long)em.createNamedQuery("getTasksCount", Long.class)
+                                      .getSingleResult();
 
         em.close();
 
         request.setAttribute("tasks", tasks);
-
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
-        rd.forward(request, response);
+        request.setAttribute("tasks_count",tasks_count);     // 全件数
+        request.setAttribute("page", page);                         // ページ数
     }
 }
