@@ -13,9 +13,6 @@
             <a href="${pageContext.request.contextPath}/index">一覧に戻る</a>
         </p>
         <p>
-            <a href="${pageContext.request.contextPath}/index">一覧に戻る</a>
-        </p>
-        <p>
             <a href="#" onclick="confirmDestroy();">このタスクを削除する</a>
         </p>
         <form method="POST"
